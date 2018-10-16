@@ -1,0 +1,46 @@
+- name: Get lsb_release
+  shell: lsb_release -sc
+  register: lsb_release
+
+- name: Debug
+  debug:
+    msg: "{{ lsb_release }}"
+
+- name: Set up your keys
+  become: yes
+  apt_key:
+    keyserver: hkp://ha.pool.sks-keyservers.net:80
+    id: 421C365BD9FF1F717815A3895523BAEEB01FA116
+
+- name: Setup your sources.list
+  become: yes
+  apt_repository:
+    repo: deb http://packages.ros.org/ros/ubuntu {{ lsb_release.stdout }} main
+    state: present
+    filename: ros-latest.list
+
+- name: Installation
+  become: yes
+  apt:
+    name: ros-melodic-desktop-full
+    update_cache: yes
+
+- name: Initialize rosdep
+  become: yes
+  shell: rosdep init
+  args:
+    creates: /etc/ros/rosdep/sources.list.d/20-default.list
+
+- name: Update rosdep
+  shell: rosdep update
+
+- name: Environment setup
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    line: source /opt/ros/melodic/setup.bash
+
+- name: Source .bashrc
+  shell: sh {{ ansible_env.HOME }}/.bashrc
+  tags:
+    - source
+

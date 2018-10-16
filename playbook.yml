@@ -1,0 +1,15 @@
+- hosts: all
+  roles:
+    - role: sublime-text
+      tags: sublime-text
+    - role: vscode
+      tags: vscode
+    - role: docker
+      tags: docker
+    - role: docker-compose
+      tags: docker-compose
+    - role: nvidia-docker
+      tags: nvidia-docker
+    - role: ros
+      tags: ros
+

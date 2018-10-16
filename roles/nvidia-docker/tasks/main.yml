@@ -1,0 +1,31 @@
+- name: Add NVIDIA-Docker's official GPG key
+  become: true
+  apt_key:
+    keyserver: https://nvidia.github.io/nvidia-docker/gpgkey
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+
+- name: Get distribution
+  shell: ". /etc/os-release;echo $ID$VERSION_ID"
+  register: distribution
+
+- name: Get NVIDIA-Docker repository list
+  uri:
+    url: https://nvidia.github.io/nvidia-docker/{{ distribution.stdout }}/nvidia-docker.list
+    return_content: true
+  register: repository
+
+- name: Add NVIDIA-Docker app repository
+  become: true
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: nvidia-docker
+  with_items: "{{ repository.content.split('\n') }}"
+  when: item != ""
+
+- name: Install NVIDIA-Docker
+  become: true
+  apt:
+    name: nvidia-docker2
+    update_cache: true
+    allow_unauthenticated: true
