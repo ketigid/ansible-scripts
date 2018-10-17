@@ -1,0 +1,29 @@
+---
+- name: Install dependencies
+  become: yes
+  apt:
+    name:
+      - curl
+      - openssh-server
+      - ca-certificates
+    update_cache: yes
+
+- name: Download GitLab package repository script
+  get_url:
+    url: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh
+    dest: /home/{{ ansible_user_id }}/Downloads/script.deb.sh
+    mode: +x
+
+- name: Run package repository script
+  become: yes
+  script: /home/{{ ansible_user_id }}/Downloads/script.deb.sh
+  args:
+    creates: /etc/apt/sources.list.d/gitlab_gitlab-ee.list
+
+- name: Install Gitlab
+  become: yes
+  apt:
+    name: gitlab-ee
+    update_cache: yes
+  environment:
+    EXTERNAL_URL: "{{ gitlab_ip }}"

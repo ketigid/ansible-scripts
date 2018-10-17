@@ -12,4 +12,5 @@
       tags: nvidia-docker
     - role: ros
       tags: ros
-
+    - role: gitlab
+      tags: gitlab
