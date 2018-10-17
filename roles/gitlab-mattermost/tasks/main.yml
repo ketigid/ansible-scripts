@@ -1,0 +1,15 @@
+---
+- name: Update /etc/gitlab/gitlab.rb
+  become: yes
+  lineinfile:
+    path: /etc/gitlab/gitlab.rb
+    regexp: "^mattermost_external_url"
+    insertafter: "^# mattermost_external_url 'http://mattermost.example.com'"
+    line: mattermost_external_url 'http://{{ gitlab_mattermost_url }}'
+
+- name: Reconfigure GitLab
+  become: yes
+  shell: |
+    gitlab-ctl reconfigure
+    gitlab-ctl stop
+    gitlab-ctl start
