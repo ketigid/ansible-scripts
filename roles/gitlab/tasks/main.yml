@@ -20,6 +20,11 @@
   args:
     creates: /etc/apt/sources.list.d/gitlab_gitlab-ee.list
 
+- name: Remove package repository script
+  file:
+    path: /home/{{ ansible_user_id }}/Downloads/script.deb.sh
+    state: absent
+
 - name: Install Gitlab
   become: yes
   apt:
