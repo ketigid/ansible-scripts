@@ -1,4 +1,7 @@
 - hosts: all
+  become: yes
+  vars_files:
+    - vars/main.yml
   roles:
     - role: sublime-text
       tags: sublime-text
@@ -16,3 +19,5 @@
       tags: gitlab
     - role: gitlab-mattermost
       tags: gitlab-mattermost
+    - role: geerlingguy.nodejs
+      tags: nodejs
