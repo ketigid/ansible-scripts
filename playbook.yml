@@ -19,5 +19,7 @@
       tags: gitlab
     - role: gitlab-mattermost
       tags: gitlab-mattermost
+    - role: mongodb
+      tags: mongodb
     - role: geerlingguy.nodejs
       tags: nodejs
