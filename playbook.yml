@@ -31,6 +31,8 @@
     tags: gitlab-mattermost
   - role: mongodb
     tags: mongodb
+  - role: mongodb-compass
+    tags: mongodb-compass
   # Use include_role module to dynamically include roles from ansible galaxy
   # Ansible galaxy role must be defined in requirements.yml
   tasks:

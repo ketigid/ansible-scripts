@@ -1,0 +1,9 @@
+---
+- name: Download MongoDB Compass
+  get_url:
+    url: "{{ mongodb_compass_url }}"
+    dest: "/tmp/{{ mongodb_compass_filename }}"
+
+- name: Install Compass
+  apt:
+    deb: "/tmp/{{ mongodb_compass_filename }}"
