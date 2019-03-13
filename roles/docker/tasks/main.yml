@@ -5,7 +5,7 @@
     name:
       - apt-transport-https
       - ca-certificates
-      - gnupg-curl
+      #- gnupg-curl
       - software-properties-common
 
 - name: Add Docker's official GPG key
